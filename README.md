@@ -1,2 +1,2 @@
 # UltraSkys
-A CosmicReach plugin, that allows you to modify your skys and your environments 
+A CosmicReach mod, that allows you to modify your skys and your environments 
