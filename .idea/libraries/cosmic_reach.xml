@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="cosmic-reach">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/run/cosmic-reach.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

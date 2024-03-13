@@ -1,0 +1,24 @@
+{
+    "schemaVersion": 1,
+    "id": "ultraskys",
+    "version": "${version}",
+    "name": "UltraSkys",
+    "description": "UltraSkys a Fabric mod for Cosmic reach bringing new skys to the space",
+    "authors": [
+      "Nano"
+    ],
+    "license": "MIT",
+    "environment": "*",
+    "entrypoints": {
+      "main": [
+        "com.github.ultraskys.UltraSkys"
+      ]
+    },
+    "mixins": [
+      "ultraskys.mixins.json"
+    ],
+    "depends": {
+      "fabricloader": ">=0.13.3",
+      "cosmic_reach": ">=0.1.0"
+    }
+  }
