@@ -5,8 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "MainMenuMixin",
-    "SkyMixin",
-    "OptionsMenuMixin"
+    "OptionsMenuMixin",
+    "SkyMixin"
   ],
   "client": [],
   "server": [],

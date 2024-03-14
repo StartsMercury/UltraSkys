@@ -25,19 +25,13 @@ import static com.github.ultraskys.UltraSkys.LOGGER;
 @Mixin(OptionsMenu.class)
 
 public abstract class OptionsMenuMixin {
-
-
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onInit(GameState previousState, CallbackInfo ci) {
-
-
-
         UIElement StarsButton = new UIElement(300.0F, -200.0F, 250.0F, 50.0F) {
             public void onCreate() {
                 super.onCreate();
                 this.updateText();
             }
-
             public void onClick() {
                 super.onClick();
                 int[] distances = new int[]{50, 100, 200, 400, 600, 1000, 2000, 2500, 3000, 5000};
@@ -54,22 +48,14 @@ public abstract class OptionsMenuMixin {
                         SharedData.setNumStars(distances[0]);
                     }
                 }
-
                 this.updateText();
-
-
-
             }
-
             public void updateText() {
-                SharedData sharedData = SharedData.getInstance();
-
-                sharedData.setUpdated(true);
-
+                SharedData.setUpdated(true);
                 this.setText("Stars Count: " + SharedData.getNumStars());
-
             }
         };
+
         StarsButton.show();
         OptionsMenu uiElements = (OptionsMenu)(Object) this;
         uiElements.uiElements.add(StarsButton);
@@ -81,22 +67,12 @@ public abstract class OptionsMenuMixin {
             }
 
             public void onClick() {
+
                 super.onClick();
-
-                if (!SharedData.isDay()){
-                    SharedData.isDayUpdate(true);
-                } else {
-                    SharedData.isDayUpdate(false);
-                }
-
-
+                SharedData.isDayUpdate(!SharedData.isDay());
                 this.updateText();
-
-
-                SharedData sharedData = SharedData.getInstance();
-
-                if (sharedData.isDay()){
-
+                
+                if (SharedData.isDay()){
                     Sky.skyColor.set(0.1F, 0.1F, 0.2F, 0.2F);
                 } else {
                     Sky.skyColor.set(0.0F, 0.0F, 0.0F, 1.0F);
@@ -105,12 +81,7 @@ public abstract class OptionsMenuMixin {
             }
 
             public void updateText() {
-
                 this.setText("Vibrant Day: " + (SharedData.isDay() ? "On" : "Off"));
-
-
-
-
             }
 
         };

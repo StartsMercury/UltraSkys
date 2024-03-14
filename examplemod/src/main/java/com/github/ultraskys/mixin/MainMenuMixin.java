@@ -17,9 +17,6 @@ public class MainMenuMixin {
     @Inject(method = "create", at = @At("HEAD"))
     private void mainmenu$init(CallbackInfo ci) {
         LOGGER.info("Loaded UltraSkys");
-
-
-
     }
 
 

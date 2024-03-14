@@ -1,33 +1,26 @@
 package com.github.ultraskys.mixin;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.g3d.Shader;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.FloatArray;
-import com.esotericsoftware.minlog.Log;
+import com.badlogic.gdx.utils.Logger;
+import com.github.ultraskys.DaySky;
 import com.github.ultraskys.SharedData;
+import static com.github.ultraskys.UltraSkys.LOGGER;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.rendering.shaders.SkyStarShader;
 import org.spongepowered.asm.mixin.Mixin;
 import finalforeach.cosmicreach.world.Sky;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.gen.Accessor;
-import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
-import java.util.function.Supplier;
-
-import static com.badlogic.gdx.math.MathUtils.random;
-import static com.github.ultraskys.UltraSkys.LOGGER;
-
 
 
 @Mixin(Sky.class)
@@ -38,13 +31,18 @@ public class SkyMixin {
     private static Mesh starMesh;
     @Shadow
     private static GameShader starShader;
-
     @Shadow public static Color skyColor;
 
     @Inject(method = "drawStars", at = @At("HEAD"))
     private static void drawStars0(Camera worldCamera, CallbackInfo ci) {
         SharedData sharedData = SharedData.getInstance();
+        // WARNING: DrawStars is on loop aka multi-thread =-=
+        if(Objects.equals(String.valueOf(Sky.skyColor), "4c99ccff")){
+            DaySky.renderClouds(worldCamera);
+        }
 
+
+        //LOGGER.info(String.valueOf(Sky.skyColor));
         if(sharedData.Updated()){
             Gdx.gl.glDepthMask(false);
             if (starMesh != null) {
