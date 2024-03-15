@@ -4,6 +4,7 @@
   "package": "com.github.ultraskys.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "GameRenderMixin",
     "MainMenuMixin",
     "OptionsMenuMixin",
     "SkyMixin"

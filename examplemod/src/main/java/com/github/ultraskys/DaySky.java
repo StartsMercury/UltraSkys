@@ -19,26 +19,30 @@ public class DaySky {
     private static Mesh cloudMesh;
     public static Cloudshader cloudShader;
     private float[] tmpVec3 = new float[3];
-    static ShaderProgram shader = Cloudshader.CLOUD_SHADER.shader;
+
     public static void renderClouds(Camera WorldCamera){
+        ShaderProgram shader = Cloudshader.CLOUD_SHADER.shader;
+
         // INFO: Render Gsl shaders for clouds and render to player position on screen
-        Cloudshader.initCloudShader();
+
 
         Gdx.gl.glDepthMask(false);
         if (cloudMesh == null) {
             cloudShader = Cloudshader.CLOUD_SHADER;
             VertexAttribute[] attribs = new VertexAttribute[]{VertexAttribute.Position()};
             FloatArray verts = new FloatArray();
-            int numStars = 1000;
+            int numStars = 25;
             Vector3 pointOff = new Vector3();
             Vector3 pointA = new Vector3();
             Vector3 pointB = new Vector3();
             Vector3 pointC = new Vector3();
             Vector3 pointD = new Vector3();
 
+            float minDistance = 3.2f; // Minimum distance between clouds
+
             int maxVert;
-            for(maxVert = 0; maxVert < numStars; ++maxVert) {
-                float s = MathUtils.random(0.01F, 0.05F) / 2.0F;
+            for (maxVert = 0; maxVert < numStars; ++maxVert) {
+                float s = MathUtils.random(2.0F, 3.0F) / 2.0F;
                 float ax = MathUtils.random(360.0F);
                 float ay = MathUtils.random(360.0F);
                 float az = MathUtils.random(360.0F);
@@ -66,12 +70,29 @@ public class DaySky {
                 pointB.add(pointOff);
                 pointC.add(pointOff);
                 pointD.add(pointOff);
-                verts.add(pointC.x, pointC.y, pointC.z);
-                verts.add(pointB.x, pointB.y, pointB.z);
-                verts.add(pointA.x, pointA.y, pointA.z);
-                verts.add(pointD.x, pointD.y, pointD.z);
-                verts.add(pointB.x, pointB.y, pointB.z);
-                verts.add(pointC.x, pointC.y, pointC.z);
+
+                // Check if the current cloud overlaps with any existing cloud
+                boolean overlap = false;
+                for (int i = 0; i < verts.size; i += 3) {
+                    float x = verts.get(i);
+                    float y = verts.get(i + 1);
+                    float z = verts.get(i + 2);
+                    float distSq = pointA.dst2(x, y, z);
+                    if (distSq < minDistance * minDistance) {
+                        overlap = true;
+                        break;
+                    }
+                }
+
+                // Only add the cloud if there is no overlap
+                if (!overlap) {
+                    verts.add(pointC.x, pointC.y, pointC.z);
+                    verts.add(pointB.x, pointB.y, pointB.z);
+                    verts.add(pointA.x, pointA.y, pointA.z);
+                    verts.add(pointD.x, pointD.y, pointD.z);
+                    verts.add(pointB.x, pointB.y, pointB.z);
+                    verts.add(pointC.x, pointC.y, pointC.z);
+                }
             }
 
             maxVert = verts.size / attribs.length;
@@ -81,7 +102,7 @@ public class DaySky {
 
         cloudShader.bind(WorldCamera);
         cloudMesh.bind(shader);
-        cloudMesh.render(shader, 4);
+        cloudMesh.render(shader, GL20.GL_TRIANGLES);
         Gdx.gl.glDepthMask(true);
     }
 

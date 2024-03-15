@@ -12,7 +12,7 @@ out vec4 outColor;
 
 void main()
 {
-   // vec4 texColor = texture(texDiffuse, v_texCoord0);
-    //outColor = vec4(texColor.rgba);
-    outColor = vec4(1);
+    // vec4 texColor = texture(texDiffuse, v_texCoord0);
+    // outColor = vec4(texColor.rgba);
+    outColor = vec4(1.0);
 }

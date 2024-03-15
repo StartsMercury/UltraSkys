@@ -27,7 +27,7 @@ import static com.github.ultraskys.UltraSkys.LOGGER;
 public abstract class OptionsMenuMixin {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onInit(GameState previousState, CallbackInfo ci) {
-        UIElement StarsButton = new UIElement(300.0F, -200.0F, 250.0F, 50.0F) {
+        UIElement StarsButton = new UIElement(400.0F, -200.0F, 250.0F, 50.0F) {
             public void onCreate() {
                 super.onCreate();
                 this.updateText();
@@ -60,7 +60,7 @@ public abstract class OptionsMenuMixin {
         OptionsMenu uiElements = (OptionsMenu)(Object) this;
         uiElements.uiElements.add(StarsButton);
 
-        UIElement VibrentDay = new UIElement(-300.0F, -200.0F, 250.0F, 50.0F) {
+        UIElement VibrentDay = new UIElement(400.0F, -125.0F, 250.0F, 50.0F) {
             public void onCreate() {
                 super.onCreate();
                 this.updateText();
