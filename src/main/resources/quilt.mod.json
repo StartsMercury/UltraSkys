@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+
+  "quilt_loader": {
+    "group": "${mod_group}",
+    "id": "${mod_id}",
+    "version": "${mod_version}",
+
+    "intermediate_mappings":"net.fabricmc:intermediary",
+
+    "metadata": {
+      "name": "${mod_name}",
+      "description": "UltraSkys a Quilt mod for Cosmic reach bringing new skys to the space",
+      "contributors": {
+        "Nano": "Owner"
+      },
+
+      "contact": {
+        "homepage": "https://github.com/0x251/UltraSkys",
+        "issues": "https://github.com/0x251/UltraSkys/issues",
+        "sources": "https://github.com/0x251/UltraSkys"
+      }
+    },
+
+    "entrypoints": {
+      "init": "com.github.ultraskys.UltraSkys"
+    },
+
+    "depends": [
+      {
+        "id": "cosmic_quilt",
+        "versions": "*"
+      },
+      {
+        "id": "cosmic_reach",
+        "versions": "*"
+      }
+    ]
+  },
+
+  "mixin": "ultraskys.mixins.json"
+}
