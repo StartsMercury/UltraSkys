@@ -1,21 +1,13 @@
-# UltraSkys
-A CosmicReach mod, that allows you to modify your skys and your environments 
+# Cosmic Example Mod
 
-### Contribute 
-Ultra Skys is a mod that allows the player to have a unique experience in there Cosmic world, allowing it's user to have more vibrant sky, allowing it's user to customize the sky.
-**Please follow the above for any PR made^**
+This is an example mod for Cosmic Reach game based on Fabric Mod Loader.
 
-### TODO
-Here are some baselines that need to be added and can give PR's a good idea on what to work on
-- [x] Custom Star count
-- [x] Vibrant Day
-- [ ] Code Cleanup [Mixins]
-- [ ] Custom / more shaders for Earth day sky [clouds]
-- [ ] planets shaders for starsky render and and [comets, twinkling lights]
-- [ ] save players settings changes
+## How to setup
+1. Load the Gradle project in IntelIJ.
+2. Move the main game jar into the /run folder and rename it to "cosmic-reach.jar"
+3. Run modLoader:buildAndCopy. It should create .jar file in the run folder
+4. Run examplemod:runClient task. It should launch the game.
 
-# Build
- - Open in intelj, run the gradel build ``copyandbuild``
- - Make sure that you have the lastest version of cosmic reach in the run folder, and make sure to rename cosmic reach jar to ``cosmic-reach.jar``
- - Then from gradel run ``runClient``, UltraSky will be built under ``$pwd/run/mods/``
-
+## How to setup sources
+1. There's no automatic way for it currently. You need to manually decompile the game jar with JD-gui or other decompilers and export it sources.
+2. Then you need to choose them with IntelIj.

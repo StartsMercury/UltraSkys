@@ -30,31 +30,32 @@ public class DaySky {
         if (cloudMesh == null) {
             cloudShader = Cloudshader.CLOUD_SHADER;
             VertexAttribute[] attribs = new VertexAttribute[]{VertexAttribute.Position()};
+
             FloatArray verts = new FloatArray();
-            int numStars = 25;
+            int numClouds = 45; // Increased number of clouds to cover the whole sky
             Vector3 pointOff = new Vector3();
             Vector3 pointA = new Vector3();
             Vector3 pointB = new Vector3();
             Vector3 pointC = new Vector3();
             Vector3 pointD = new Vector3();
 
-            float minDistance = 3.2f; // Minimum distance between clouds
+            float minDistance = 1.0f; // Reduced minimum distance between clouds for denser cloud cover
 
             int maxVert;
-            for (maxVert = 0; maxVert < numStars; ++maxVert) {
-                float s = MathUtils.random(2.0F, 3.0F) / 2.0F;
+            for (maxVert = 0; maxVert < numClouds; ++maxVert) {
+                float s = 8.0F; // Increased size range for larger clouds
                 float ax = MathUtils.random(360.0F);
                 float ay = MathUtils.random(360.0F);
                 float az = MathUtils.random(360.0F);
-                pointA.set(0.0F, 0.0F, 0.0F);
+                pointA.set(-s, -s, 0.0F); // Adjusted points to create larger and more varied cloud shapes
                 pointA.rotate(ax, 1.0F, 0.0F, 0.0F);
                 pointA.rotate(ay, 0.0F, 1.0F, 0.0F);
                 pointA.rotate(az, 0.0F, 0.0F, 1.0F);
-                pointB.set(s, 0.0F, 0.0F);
+                pointB.set(s, -s, 0.0F);
                 pointB.rotate(ax, 1.0F, 0.0F, 0.0F);
                 pointB.rotate(ay, 0.0F, 1.0F, 0.0F);
                 pointB.rotate(az, 0.0F, 0.0F, 1.0F);
-                pointC.set(0.0F, s, 0.0F);
+                pointC.set(-s, s, 0.0F);
                 pointC.rotate(ax, 1.0F, 0.0F, 0.0F);
                 pointC.rotate(ay, 0.0F, 1.0F, 0.0F);
                 pointC.rotate(az, 0.0F, 0.0F, 1.0F);
@@ -62,7 +63,7 @@ public class DaySky {
                 pointD.rotate(ax, 1.0F, 0.0F, 0.0F);
                 pointD.rotate(ay, 0.0F, 1.0F, 0.0F);
                 pointD.rotate(az, 0.0F, 0.0F, 1.0F);
-                pointOff.set(0.0F, 0.0F, 5.0F);
+                pointOff.set(MathUtils.random(-100.0F, 100.0F), MathUtils.random(-100.0F, 100.0F), MathUtils.random(5.0F, 15.0F)); // Randomized cloud positions more aggressively to cover the whole sky
                 pointOff.rotate(ax, 1.0F, 0.0F, 0.0F);
                 pointOff.rotate(ay, 0.0F, 1.0F, 0.0F);
                 pointOff.rotate(az, 0.0F, 0.0F, 1.0F);
@@ -71,28 +72,12 @@ public class DaySky {
                 pointC.add(pointOff);
                 pointD.add(pointOff);
 
-                // Check if the current cloud overlaps with any existing cloud
-                boolean overlap = false;
-                for (int i = 0; i < verts.size; i += 3) {
-                    float x = verts.get(i);
-                    float y = verts.get(i + 1);
-                    float z = verts.get(i + 2);
-                    float distSq = pointA.dst2(x, y, z);
-                    if (distSq < minDistance * minDistance) {
-                        overlap = true;
-                        break;
-                    }
-                }
-
-                // Only add the cloud if there is no overlap
-                if (!overlap) {
-                    verts.add(pointC.x, pointC.y, pointC.z);
-                    verts.add(pointB.x, pointB.y, pointB.z);
-                    verts.add(pointA.x, pointA.y, pointA.z);
-                    verts.add(pointD.x, pointD.y, pointD.z);
-                    verts.add(pointB.x, pointB.y, pointB.z);
-                    verts.add(pointC.x, pointC.y, pointC.z);
-                }
+                verts.add(pointC.x, pointC.y, pointC.z);
+                verts.add(pointB.x, pointB.y, pointB.z);
+                verts.add(pointA.x, pointA.y, pointA.z);
+                verts.add(pointD.x, pointD.y, pointD.z);
+                verts.add(pointB.x, pointB.y, pointB.z);
+                verts.add(pointC.x, pointC.y, pointC.z);
             }
 
             maxVert = verts.size / attribs.length;
