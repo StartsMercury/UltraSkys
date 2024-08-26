@@ -6,9 +6,9 @@ plugins {
 repositories {
     ivy {
         name "Cosmic Reach"
-        url "https://cosmic-archive.netlify.app/"
+        url "https://github.com/CRModders/CosmicArchive/raw/main/versions"
         patternLayout {
-            artifact "/Cosmic Reach-[revision].jar"
+            artifact "[classifier]/Cosmic Reach-[revision].jar"
         }
         // This is required in Gradle 6.0+ as metadata file (ivy.xml) is mandatory
         metadataSources {
@@ -16,7 +16,7 @@ repositories {
         }
 
         content {
-            includeGroup "finalforeach"
+            includeModule "finalforeach", "cosmicreach"
         }
     }
 
@@ -59,7 +59,7 @@ configurations {
 
 dependencies {
     // Cosmic Reach jar
-    cosmicreach "finalforeach:cosmicreach:${cosmic_reach_version}"
+    cosmicreach "finalforeach:cosmicreach:${cosmic_reach_version}:pre-alpha"
 
     // Cosmic Quilt
     quiltMod "org.codeberg.CRModders:cosmic-quilt:${cosmic_quilt_version}"
