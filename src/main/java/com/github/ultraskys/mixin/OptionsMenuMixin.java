@@ -2,13 +2,10 @@ package com.github.ultraskys.mixin;
 
 import com.github.ultraskys.IntsSlider;
 import com.github.ultraskys.SharedData;
-import com.github.ultraskys.SkyExtensions;
 import finalforeach.cosmicreach.gamestates.GameState;
-import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.gamestates.OptionsMenu;
 import finalforeach.cosmicreach.ui.UIElement;
 import finalforeach.cosmicreach.world.Sky;
-import finalforeach.cosmicreach.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -84,19 +81,5 @@ public abstract class OptionsMenuMixin extends GameState {
 
         SharedData.setNumStars(numStars);
         SharedData.setUpdated(true);
-
-        World world = InGame.world;
-        if (world == null) {
-            return;
-        }
-
-        Sky sky = Sky.currentSky;
-        if (!sky.shouldDrawStars) {
-            return;
-        }
-
-        // Invalidates the seed to indirectly trigger star mesh rebuild
-        long unequalSeed = ~world.worldSeed;
-        ((SkyExtensions) sky).setSeed(unequalSeed);
     }
 }
