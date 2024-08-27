@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.github.ultraskys.DaySky;
 import com.github.ultraskys.SharedData;
-import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.world.Sky;
-import finalforeach.cosmicreach.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -22,8 +20,8 @@ public class SkyMixin {
 
     @Inject(method = "drawSky", at = @At("HEAD"))
     private void drawClouds(Camera worldCamera, CallbackInfo ci) {
-        World world = InGame.world;
-        if (world != null) {
+        //noinspection ConstantValue
+        if (this != (Object) Sky.SPACE_DAY || SharedData.isDay()) {
             DaySky.renderClouds(worldCamera);
         }
     }
