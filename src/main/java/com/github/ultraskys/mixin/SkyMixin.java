@@ -1,6 +1,7 @@
 package com.github.ultraskys.mixin;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.github.ultraskys.DaySky;
 import com.github.ultraskys.SharedData;
 import com.github.ultraskys.SkyExtensions;
@@ -15,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
@@ -23,6 +25,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class SkyMixin implements SkyExtensions {
     @Shadow
     long seed;
+
+    @Redirect(method = "<clinit>", at = @At(value = "FIELD", target = "Lcom/badlogic/gdx/graphics/Color;BLACK:Lcom/badlogic/gdx/graphics/Color;"))
+    private static Color fixBlackColors() {
+        // DO NOT use `Color.BLACK`: it is MUTABLE!!!
+        return new Color(0.0F, 0.0F, 0.0F, 1.0F);
+    }
 
     @Inject(method = "drawSky", at = @At("HEAD"))
     private void drawClouds(Camera worldCamera, CallbackInfo ci) {

@@ -1,6 +1,5 @@
 package com.github.ultraskys.mixin;
 
-import com.badlogic.gdx.graphics.Color;
 import com.github.ultraskys.SharedData;
 import com.github.ultraskys.SkyExtensions;
 import finalforeach.cosmicreach.gamestates.GameState;
@@ -67,10 +66,8 @@ public abstract class OptionsMenuMixin extends GameState {
 
                 if (SharedData.isDay()){
                     Sky.SPACE_DAY.currentSkyColor.set(0.1F, 0.1F, 0.2F, 0.2F);
-                    Sky.SPACE_DAY.currentAmbientColor.set(Color.WHITE);
                 } else {
-                    Sky.SPACE_DAY.currentSkyColor.set(Color.BLACK);
-                    Sky.SPACE_DAY.currentSkyColor.set(0.1F, 0.1F, 0.2F, 1.0F);
+                    Sky.SPACE_DAY.currentSkyColor.set(0.0F, 0.0F, 0.0F, 1.0F);
                 }
 
             }
