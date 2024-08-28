@@ -30,9 +30,8 @@ what to work on:
 
 This project is a fork of [UltraSkys] made by @0x251, that was originally
 released under [Eclipse Public License - v 2.0 license] and later changed to
-[Creative Commons Zero (CC0) license], possibly by mistake (see commit
-3d2b0a451aaa7a6c073da95d3de2c1724b6ea564). Some code may be subjected by either
-or both of said licenses.
+[Creative Commons Zero (CC0) license], possibly by mistake (see commit 
+[3d2b0a4]). Some code may be subjected by either or both of said licenses.
 
 This fork is now licensed under the [MIT License]. Changes made to the original
 codebase may be assumed to be under the new license, given that those changes
@@ -46,6 +45,8 @@ terms of that license.
 We encourage you to check the [original repository] for more details on the
 [Eclipse Public License - v 2.0 license].
 
+[3d2b0a4]:
+https://github.com/0x251/UltraSkys/tree/3d2b0a451aaa7a6c073da95d3de2c1724b6ea564
 [Creative Commons Zero (CC0) license]:
 https://github.com/0x251/UltraSkys/blob/f84d2d80aed029d70f0f015e7c8c36102b99ca51/license.txt
 [Eclipse Public License - v 2.0 license]:
