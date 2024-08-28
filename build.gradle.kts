@@ -1,0 +1,131 @@
+import dev.crmodders.cosmicloom.extention.LoomGradleExtension.getCosmicQuilt
+import dev.crmodders.cosmicloom.extention.LoomGradleExtension.getCosmicReach
+
+object Constants {
+    const val GROUP = "io.github.startsmercury"
+    const val MODID = "hgskys"
+    const val VERSION = "0.1.7"
+
+    const val VERSION_COSMIC_REACH = "0.1.50"
+    const val VERSION_JAVA = "17"
+}
+
+plugins {
+    `java-library`
+    id("cosmicloom")
+    `maven-publish`
+}
+
+base {
+    group = Constants.GROUP
+    archivesName = Constants.MODID
+    version = createVersionString()
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+
+    toolchain.languageVersion = JavaLanguageVersion.of(Constants.VERSION_JAVA)
+}
+
+dependencies {
+    // Cosmic Reach
+    cosmicReach(getCosmicReach("pre-alpha", Constants.VERSION_COSMIC_REACH))
+
+    // Cosmic Quilt
+    modImplementation(getCosmicQuilt("2.1.1"))
+
+    // LibGDX (See into CR's jar: com.badlogic.gdx.Versions)
+    compileOnly(group = "com.badlogicgames.gdx", name = "gdx", version = "1.12.1")
+
+    // Mod Menu
+    modImplementation(group = "org.codeberg.CRModders", name = "modmenu", version = "1.0.7")
+}
+
+tasks {
+    withType<ProcessResources> {
+        val resourceTargets = listOf(
+            "quilt.mod.json",
+        )
+
+        val replaceProperties = mutableMapOf<String, Any>(
+            "group" to Constants.GROUP,
+            "modid" to Constants.MODID,
+            "version" to Constants.VERSION,
+        )
+
+        inputs.properties(replaceProperties)
+        replaceProperties["project"] = project
+
+        filesMatching(resourceTargets) {
+            expand(replaceProperties)
+        }
+    }
+
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+
+    javadoc {
+        options {
+            this as StandardJavadocDocletOptions
+
+            source = Constants.VERSION_JAVA
+            encoding = "UTF-8"
+            charSet = "UTF-8"
+            memberLevel = JavadocMemberLevel.PACKAGE
+            addStringOption("Xdoclint:none", "-quiet")
+            tags(
+                "apiNote:a:API Note:",
+                "implSpec:a:Implementation Requirements:",
+                "implNote:a:Implementation Note:",
+            )
+        }
+
+        source(sourceSets.main.get().allJava)
+        classpath = files(sourceSets.main.get().compileClasspath)
+        include("**/api/**")
+        isFailOnError = true
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = Constants.GROUP
+            artifactId = Constants.MODID
+            version = createVersionString()
+
+            from(components["java"])
+        }
+    }
+}
+
+fun createVersionString(): String {
+    val builder = StringBuilder()
+
+    val isReleaseBuild = project.hasProperty("build.release")
+    val buildId = System.getenv("GITHUB_RUN_NUMBER")
+
+    if (isReleaseBuild) {
+        builder.append(Constants.VERSION)
+    } else {
+        builder.append(Constants.VERSION.substringBefore('-'))
+        builder.append("-snapshot")
+    }
+
+    builder.append("+cr").append(Constants.VERSION_COSMIC_REACH)
+
+    if (!isReleaseBuild) {
+        if (buildId != null) {
+            builder.append("-build.${buildId}")
+        } else {
+            builder.append("-local")
+        }
+    }
+
+    return builder.toString()
+}
+
+
