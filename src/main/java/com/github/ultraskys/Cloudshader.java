@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
-import finalforeach.cosmicreach.rendering.shaders.SkyStarShader;
 
 public class Cloudshader extends GameShader {
     public static Cloudshader CLOUD_SHADER;
@@ -17,8 +16,9 @@ public class Cloudshader extends GameShader {
         this.skyCam.up.set(worldCamera.up);
         this.skyCam.direction.set(worldCamera.direction);
         this.skyCam.fieldOfView = ((PerspectiveCamera)worldCamera).fieldOfView;
-        this.skyCam.position.set(0.0F, 0.0F, 0.0F);
-        this.skyCam.near = worldCamera.near;
+        this.skyCam.position.set(worldCamera.position);
+        this.skyCam.near = 1.0F;
+        this.skyCam.far = 1000.0F;
         this.skyCam.viewportWidth = worldCamera.viewportWidth;
         this.skyCam.viewportHeight = worldCamera.viewportHeight;
         this.skyCam.update();
