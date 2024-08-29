@@ -1,12 +1,15 @@
 package com.github.ultraskys;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.FloatArray;
-import finalforeach.cosmicreach.rendering.shaders.SkyStarShader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,9 +34,10 @@ public class DaySky {
             cloudShader = Cloudshader.CLOUD_SHADER;
             VertexAttribute[] attribs = new VertexAttribute[]{VertexAttribute.Position()};
 
+            Quaternion quaternion = new Quaternion();
             FloatArray verts = new FloatArray();
             int numClouds = 45; // Increased number of clouds to cover the whole sky
-            Vector3 pointOff = new Vector3();
+            Vector3 center = new Vector3();
             Vector3 pointA = new Vector3();
             Vector3 pointB = new Vector3();
             Vector3 pointC = new Vector3();
@@ -43,35 +47,25 @@ public class DaySky {
 
             int maxVert;
             for (maxVert = 0; maxVert < numClouds; ++maxVert) {
-                float s = 8.0F; // Increased size range for larger clouds
-                float ax = MathUtils.random(360.0F);
-                float ay = MathUtils.random(360.0F);
-                float az = MathUtils.random(360.0F);
-                pointA.set(-s, -s, 0.0F); // Adjusted points to create larger and more varied cloud shapes
-                pointA.rotate(ax, 1.0F, 0.0F, 0.0F);
-                pointA.rotate(ay, 0.0F, 1.0F, 0.0F);
-                pointA.rotate(az, 0.0F, 0.0F, 1.0F);
-                pointB.set(s, -s, 0.0F);
-                pointB.rotate(ax, 1.0F, 0.0F, 0.0F);
-                pointB.rotate(ay, 0.0F, 1.0F, 0.0F);
-                pointB.rotate(az, 0.0F, 0.0F, 1.0F);
-                pointC.set(-s, s, 0.0F);
-                pointC.rotate(ax, 1.0F, 0.0F, 0.0F);
-                pointC.rotate(ay, 0.0F, 1.0F, 0.0F);
-                pointC.rotate(az, 0.0F, 0.0F, 1.0F);
-                pointD.set(s, s, 0.0F);
-                pointD.rotate(ax, 1.0F, 0.0F, 0.0F);
-                pointD.rotate(ay, 0.0F, 1.0F, 0.0F);
-                pointD.rotate(az, 0.0F, 0.0F, 1.0F);
-                pointOff.set(MathUtils.random(-100.0F, 100.0F), MathUtils.random(-100.0F, 100.0F), MathUtils.random(5.0F, 15.0F)); // Randomized cloud positions more aggressively to cover the whole sky
-                pointOff.rotate(ax, 1.0F, 0.0F, 0.0F);
-                pointOff.rotate(ay, 0.0F, 1.0F, 0.0F);
-                pointOff.rotate(az, 0.0F, 0.0F, 1.0F);
-                pointA.add(pointOff);
-                pointB.add(pointOff);
-                pointC.add(pointOff);
-                pointD.add(pointOff);
+                quaternion.setEulerAnglesRad(MathUtils.random(MathUtils.PI2), 0.0F, 0.0F);
+                center.set(MathUtils.random(-100.0F, 100.0F), MathUtils.random(128.0F, 192.0F), MathUtils.random(-100.0F, 100.0F)); // Randomized cloud positions more aggressively to cover the whole sky
 
+                float radius = 8.0F; // Increased size range for larger clouds
+
+                quaternion.transform(pointA.set(-radius, 0.0F, -radius).add(center));
+                quaternion.transform(pointB.set(radius, 0.0F, -radius).add(center));
+                quaternion.transform(pointC.set(-radius, 0.0F, radius).add(center));
+                quaternion.transform(pointD.set(radius, 0.0F, radius).add(center));
+
+                // Downward Faces
+                verts.add(pointC.x, pointC.y, pointC.z);
+                verts.add(pointB.x, pointB.y, pointB.z);
+                verts.add(pointD.x, pointD.y, pointD.z);
+                verts.add(pointA.x, pointA.y, pointA.z);
+                verts.add(pointB.x, pointB.y, pointB.z);
+                verts.add(pointC.x, pointC.y, pointC.z);
+
+                // Upward Faces
                 verts.add(pointC.x, pointC.y, pointC.z);
                 verts.add(pointB.x, pointB.y, pointB.z);
                 verts.add(pointA.x, pointA.y, pointA.z);

@@ -18,21 +18,22 @@ void main()
     vec3 newPosition = a_position + noiseOffset;
 
 
-    newPosition.y = 5.0;
+    // newPosition.y = 5.0;
 
-    newPosition.xz = floor(newPosition.xz + 0.5);
+    // newPosition.xz = floor(newPosition.xz + 0.5);
 
-    float layerDensity = 1.0;
-    newPosition.y *= layerDensity;
+    // float layerDensity = 1.0;
+    // newPosition.y *= layerDensity;
 
-    float heightFactor = 1.0;
-    worldPos = vec3(newPosition.xz, heightFactor);
+    // float heightFactor = 1.0;
+    // worldPos = vec3(newPosition.xz, heightFactor);
+    worldPos = newPosition;
 
     newPosition.x += u_time * 0.4;
 
-    newPosition.y = max(newPosition.y, 5.0);
+    // newPosition.y = max(newPosition.y, 5.0);
 
-    newPosition.y += 0.0;
+    // newPosition.y += 0.0;
 
     gl_Position = u_projViewTrans * vec4(newPosition, 1.0);
 }
