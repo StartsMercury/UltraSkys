@@ -4,7 +4,7 @@ import dev.crmodders.cosmicloom.extention.LoomGradleExtension.getCosmicReach
 object Constants {
     const val GROUP = "io.github.startsmercury"
     const val MODID = "hgskys"
-    const val VERSION = "0.1.7"
+    const val VERSION = "0.1.8"
 
     const val VERSION_COSMIC_REACH = "0.1.50"
     const val VERSION_JAVA = "17"
